@@ -11,7 +11,10 @@ class Solution(object):
         values = d.values()
         list_values = list(values)
         for i in range(len(list_values)):
-            if list_values[i] % 2 == 0:
+            if list_values[i] % 2 != 0:
+                break
+                return false
+            else:
                 count += list_values[i]//2
         return count == n
 
