@@ -2,37 +2,30 @@ class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
         for(int i = 0; i < numCourses; i++){
-            adj.add(new ArrayList<>());
-        }
-        int n = prerequisites.length;
-        for(int i = 0; i < n; i++){
-            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+            adj.add(new ArrayList<>());       
         }
         int[] indegree = new int[numCourses];
-        for(int i = 0; i < numCourses;i++){
-            for(Integer it : adj.get(i)){
-                indegree[it]++;
-            }
+        for(int i = 0; i < prerequisites.length; i++){
+            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            indegree[prerequisites[i][0]]++;
         }
         Queue<Integer> q = new LinkedList<>();
-        for(int i = 0; i < indegree.length; i++){
+        for(int i = 0; i < numCourses; i++){
             if(indegree[i]==0){
-                q.add(i);
+                q.offer(i);
             }
         }
-        ArrayList<Integer> topo = new ArrayList<>();
+        int count = 0;
         while(!q.isEmpty()){
-            int node = q.peek();
-            q.remove();
-            topo.add(node);
-            for(Integer it : adj.get(node)){
+            int node = q.poll();
+            count++;
+            for(Integer it:adj.get(node)){
                 indegree[it]--;
                 if(indegree[it]==0){
-                    q.add(it);
+                    q.offer(it);
                 }
             }
         }
-        if(topo.size() == numCourses) return true;
-        return false;
+        return (numCourses == count);
     }
 }
