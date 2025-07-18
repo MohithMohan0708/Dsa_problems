@@ -1,7 +1,7 @@
 class Solution {
     public int func(int n, int dp[]){
-        if(n==1 || n==2){
-            return n;
+        if(n==1 || n==0){
+            return 1;
         }
         if(dp[n]!=-1){
             return dp[n];
