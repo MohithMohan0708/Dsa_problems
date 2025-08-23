@@ -15,40 +15,40 @@ class Solution {
         while(!q.isEmpty()){
             int n = q.size();
             for(int i = 0; i < n; i++){
-                TreeNode temp = q.poll();
-                if(temp.left!=null) {
-                    parent.put(temp.left,temp);
-                    q.offer(temp.left);
+                TreeNode node = q.poll();
+                if(node.left!=null){
+                    q.offer(node.left);
+                    parent.put(node.left,node);
                 }
-                if(temp.right!=null) {
-                    parent.put(temp.right,temp);
-                    q.offer(temp.right);
+                if(node.right!=null){
+                    q.offer(node.right);
+                    parent.put(node.right,node);
                 }
             }
         }
         q.offer(target);
-        HashMap<TreeNode,Boolean> vis = new HashMap<>();
-        vis.put(target,true);
-        int l = 0;
+        HashSet<TreeNode> vis = new HashSet<>();
+        vis.add(target);
+        int count = 0;
         while(!q.isEmpty()){
             int n = q.size();
-            if(l==k) break;
-            for(int i = 0; i < n;i++){
-                TreeNode temp = q.poll();
-                if(temp.left!=null && !vis.containsKey(temp.left)){
-                    q.offer(temp.left);
-                    vis.put(temp.left,true);
+            if(count==k) break;
+            for(int i = 0; i < n; i++){
+                TreeNode node = q.poll();
+                if(node.left!=null && !vis.contains(node.left)){
+                    q.offer(node.left);
+                    vis.add(node.left);
                 }
-                if(temp.right!=null && !vis.containsKey(temp.right)){
-                    q.offer(temp.right);
-                    vis.put(temp.right,true);
+                if(node.right!=null && !vis.contains(node.right)){
+                    q.offer(node.right);
+                    vis.add(node.right);
                 }
-                if(parent.containsKey(temp) && !vis.containsKey(parent.get(temp))){
-                    q.offer(parent.get(temp));
-                    vis.put(parent.get(temp),true);
+                if(parent.containsKey(node) && !vis.contains(parent.get(node))){
+                    q.offer(parent.get(node));
+                    vis.add(parent.get(node));
                 }
             }
-            l++;
+            count++;
         }
         List<Integer> ans = new ArrayList<>();
         while(!q.isEmpty()){
