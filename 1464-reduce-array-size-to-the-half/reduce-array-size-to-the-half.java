@@ -1,31 +1,33 @@
 class Pair{
-    int num, count;
-    Pair(int num, int count){
-        this.num = num;
-        this.count = count;
+    int item;
+    int freq;
+    Pair(int item, int freq){
+        this.item = item;
+        this.freq = freq;
     }
 }
 class Solution {
     public int minSetSize(int[] arr) {
         HashMap<Integer,Integer> map = new HashMap<>();
-        for(int num : arr){
-            map.put(num,map.getOrDefault(num,0)+1);
+        for(int item : arr){
+            map.put(item,map.getOrDefault(item,0)+1);
         }
-        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->
-            Integer.compare(b.count,a.count)
-        );
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->Integer.compare(b.freq,a.freq));
         for(Map.Entry<Integer,Integer> entry : map.entrySet()){
-            int num = entry.getKey();
-            int count = entry.getValue();
-            pq.offer(new Pair(num,count));
+            int item = entry.getKey();
+            int freq = entry.getValue();
+            pq.offer(new Pair(item,freq));
         }
+        int n = arr.length;
+        int count = 0;
         int curr = 0;
-        int ans = 0;
-        while(curr < arr.length/2){
+        while(curr<n/2){
             Pair p = pq.poll();
-            curr += p.count;
-            ans+=1;
+            int item = p.item;
+            int freq = p.freq;
+            curr+=freq;
+            count+=1;
         }
-        return ans;
+        return count;
     }
 }
