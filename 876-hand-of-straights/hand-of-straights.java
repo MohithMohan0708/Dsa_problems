@@ -17,6 +17,7 @@ class Solution {
         return false;
     }
     public boolean isNStraightHand(int[] hand, int groupSize) {
+        if(hand.length < groupSize) return false;
         Arrays.sort(hand);
         for(int i = 0; i < hand.length; i++){
             if(hand[i]!=-1){
